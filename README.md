@@ -25,11 +25,15 @@ A professional-grade baseball/softball scorekeeping application built with **Rea
 Install dependencies
 
 Bash
+
 npm install
+
 Start the app
 
 Bash
+
 npx expo start
+
 Run on Android Emulator / Physical Device
 
 Press a in the terminal to open on an emulator.
