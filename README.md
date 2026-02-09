@@ -20,4 +20,4 @@ A professional-grade baseball/softball scorekeeping application built with React
 
 1. **Clone the repo**
    ```bash
-   git clone <your-repo-url>
+   git clone https://github.com/patgrady64/Scorebook.git
