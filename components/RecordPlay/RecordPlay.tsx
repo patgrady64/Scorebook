@@ -1,6 +1,5 @@
 import React from 'react';
 import { Modal, View, Text, TouchableOpacity } from 'react-native';
-
 import styles from './RecordPlay.styles';
 
 type RecordPlayProps = {
@@ -16,126 +15,212 @@ type RecordPlayProps = {
   setStrikes: React.Dispatch<React.SetStateAction<number>>;
 
   onClose: () => void;
-
   onHandleKeyEntry: (key: string) => void;
-
   onSavePlay: (value: string, isGhost?: boolean) => void;
 };
 
 export default function RecordPlay(props: RecordPlayProps) {
-    return(
-<Modal visible={props.visible} transparent animationType='fade'>
-  <View style={styles.mBg}>
-    <View style={[styles.mCard, { width: '95%' }]}>
-      <View style={styles.modalCountSection}>
-        <View style={styles.countGroup}>
-          <Text style={styles.countLabel}>B</Text>
-          <View style={styles.counterRow}>
-            <TouchableOpacity
-              style={styles.countOp}
-              onPress={() => props.setBalls(Math.max(0, props.balls - 1))}>
-              <Text style={styles.countOpTxt}>-</Text>
-            </TouchableOpacity>
-            <Text style={styles.countDisplayNum}>{props.balls}</Text>
-            <TouchableOpacity
-              style={styles.countOp}
-              onPress={() => {
-                if (props.balls < 3) props.setBalls(props.balls + 1);
-                else {
-                  props.onHandleKeyEntry('BB');
-                  props.onSavePlay('BB');
-                }
-              }}>
-              <Text style={styles.countOpTxt}>+</Text>
-            </TouchableOpacity>
+  const { balls, strikes, playInput } = props;
+
+  // =========================
+  // BALLS
+  // =========================
+  const addBall = () => {
+    if (balls < 3) props.setBalls(balls + 1);
+    else {
+      props.onSavePlay('BB');
+      resetAll();
+    }
+  };
+
+  const removeBall = () => {
+    props.setBalls(Math.max(0, balls - 1));
+  };
+
+  // =========================
+  // STRIKES
+  // =========================
+  const addStrike = () => {
+    if (strikes < 2) props.setStrikes(strikes + 1);
+    else {
+      props.onSavePlay('K');
+      resetAll();
+    }
+  };
+
+  const removeStrike = () => {
+    props.setStrikes(Math.max(0, strikes - 1));
+  };
+
+  const resetAll = () => {
+    props.setBalls(0);
+    props.setStrikes(0);
+    props.setPlayInput('');
+  };
+
+  // =========================
+  // INPUT
+  // =========================
+  const deleteOne = () => {
+    props.setPlayInput((prev) => prev.slice(0, -1));
+  };
+
+  const clearAll = () => {
+    props.setPlayInput('');
+  };
+
+  const record = () => {
+    props.onSavePlay(playInput);
+    resetAll();
+    props.onClose();
+  };
+
+  const numpad = [
+    [1, 2, 3],
+    [4, 5, 6],
+    [7, 8, 9],
+    ['CLR', 0, 'DEL'],
+  ];
+
+  // =========================
+  // UI
+  // =========================
+  return (
+    <Modal visible={props.visible} transparent animationType='fade'>
+      <View style={styles.mBg}>
+        <View style={styles.mCard}>
+          {/* ===================== */}
+          {/* BALLS / STRIKES */}
+          {/* ===================== */}
+          <View style={styles.headerConsole}>
+            {/* BALLS */}
+            <View style={styles.countBlock}>
+              <Text style={styles.countLabel}>BALLS</Text>
+
+              <View style={styles.counterRow}>
+                <TouchableOpacity style={styles.countOp} onPress={removeBall}>
+                  <Text style={styles.countOpTxt}>−</Text>
+                </TouchableOpacity>
+
+                <Text style={styles.countDisplayNum}>{balls}</Text>
+
+                <TouchableOpacity style={styles.countOp} onPress={addBall}>
+                  <Text style={styles.countOpTxt}>+</Text>
+                </TouchableOpacity>
+              </View>
+            </View>
+
+            {/* STRIKES */}
+            <View style={styles.countBlock}>
+              <Text style={styles.countLabel}>STRIKES</Text>
+
+              <View style={styles.counterRow}>
+                <TouchableOpacity style={styles.countOp} onPress={removeStrike}>
+                  <Text style={styles.countOpTxt}>−</Text>
+                </TouchableOpacity>
+
+                <Text style={styles.countDisplayNum}>{strikes}</Text>
+
+                <TouchableOpacity style={styles.countOp} onPress={addStrike}>
+                  <Text style={styles.countOpTxt}>+</Text>
+                </TouchableOpacity>
+              </View>
+            </View>
           </View>
-        </View>
-        <View style={styles.countGroup}>
-          <Text style={styles.countLabel}>S</Text>
-          <View style={styles.counterRow}>
-            <TouchableOpacity
-              style={styles.countOp}
-              onPress={() => props.setStrikes(Math.max(0, props.strikes - 1))}>
-              <Text style={styles.countOpTxt}>-</Text>
-            </TouchableOpacity>
-            <Text style={styles.countDisplayNum}>{props.strikes}</Text>
-            <TouchableOpacity
-              style={styles.countOp}
-              onPress={() => {
-                if (props.strikes < 2) props.setStrikes(props.strikes + 1);
-                else {
-                  props.onHandleKeyEntry('K');
-                  props.onSavePlay('K');
-                }
-              }}>
-              <Text style={styles.countOpTxt}>+</Text>
-            </TouchableOpacity>
+
+          {/* ===================== */}
+          {/* INPUT DISPLAY */}
+          {/* ===================== */}
+          <View style={styles.displayArea}>
+            <Text style={styles.mBigInText}>{playInput || '---'}</Text>
           </View>
-        </View>
-        <TouchableOpacity
-          style={styles.smallGhostBtn}
-          onPress={() => props.onSavePlay('', true)}>
-          <Text style={styles.smallGhostTxt}>GHOST (2B)</Text>
-        </TouchableOpacity>
-      </View>
 
-      <View style={styles.displayArea}>
-        <Text style={styles.mBigInText}>{props.playInput}</Text>
-        <TouchableOpacity
-          onPress={() => props.setPlayInput((prev) => prev.slice(0, -1))}>
-          <Text style={{ color: '#FF3B30', fontWeight: 'bold' }}>DEL</Text>
-        </TouchableOpacity>
-      </View>
-
-      <View style={styles.topActions}>
-        {['1B', '2B', '3B', 'HR', 'BB', 'HBP', 'FC', 'SAC', 'K', 'ꓘ', 'E'].map(
-          (item) => (
-            <TouchableOpacity
-              key={item}
-              style={styles.actionBtn}
-              onPress={() => props.onHandleKeyEntry(item)}>
-              <Text style={styles.actionBtnTxt}>{item}</Text>
-            </TouchableOpacity>
-          ),
-        )}
-      </View>
-
-      <View style={styles.bottomKeys}>
-        <View style={styles.numpad}>
-          <View style={styles.numGrid}>
-            {[1, 2, 3, 4, 5, 6, 7, 8, 9].map((num) => (
+          {/* ===================== */}
+          {/* HITS */}
+          {/* ===================== */}
+          <Text style={styles.sectionLabel}>HITS</Text>
+          <View style={styles.consoleRow}>
+            {['1B', '2B', '3B', 'HR'].map((v) => (
               <TouchableOpacity
-                key={num}
-                style={styles.numBtn}
-                onPress={() => props.onHandleKeyEntry(num.toString())}>
-                <Text style={styles.numBtnTxt}>{num}</Text>
+                key={v}
+                style={styles.consoleBtn}
+                onPress={() => props.onHandleKeyEntry(v)}>
+                <Text style={styles.consoleTxt}>{v}</Text>
               </TouchableOpacity>
             ))}
           </View>
-        </View>
-        <View style={styles.flightpad}>
-          {['F', 'P', 'L', 'DP'].map((f) => (
+
+          {/* ===================== */}
+          {/* OUTS */}
+          {/* ===================== */}
+          <Text style={styles.sectionLabel}>OUTS</Text>
+          <View style={styles.consoleRow}>
+            {['GO', 'FO', 'DP', 'K', 'E', 'FC', 'SAC'].map((v) => (
+              <TouchableOpacity
+                key={v}
+                style={styles.consoleBtnOut}
+                onPress={() => props.onHandleKeyEntry(v)}>
+                <Text style={styles.consoleTxt}>{v}</Text>
+              </TouchableOpacity>
+            ))}
+          </View>
+
+          {/* ===================== */}
+          {/* NUMPAD */}
+          {/* ===================== */}
+          <Text style={styles.sectionLabel}>NUMPAD</Text>
+
+          <View style={{ gap: 8 }}>
+            {numpad.map((row, rowIndex) => (
+              <View key={rowIndex} style={{ flexDirection: 'row', gap: 8 }}>
+                {row.map((item, index) => {
+                  const isAction = item === 'CLR' || item === 'DEL';
+
+                  return (
+                    <TouchableOpacity
+                      key={index}
+                      style={[
+                        styles.consoleBtnAlt,
+                        isAction && { backgroundColor: '#ddd' },
+                        {
+                          flex: 1,
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                        },
+                      ]}
+                      onPress={() => {
+                        if (item === 'DEL') {
+                          props.setPlayInput((prev) => prev.slice(0, -1));
+                        } else if (item === 'CLR') {
+                          props.setPlayInput('');
+                        } else {
+                          props.onHandleKeyEntry(String(item));
+                        }
+                      }}>
+                      <Text style={styles.consoleTxt}>{item}</Text>
+                    </TouchableOpacity>
+                  );
+                })}
+              </View>
+            ))}
+          </View>
+
+          {/* ===================== */}
+          {/* ACTIONS */}
+          {/* ===================== */}
+          <View style={styles.commitBar}>
             <TouchableOpacity
-              key={f}
-              style={styles.flightBtn}
-              onPress={() => props.onHandleKeyEntry(f)}>
-              <Text style={styles.flightBtnTxt}>{f}</Text>
+              style={styles.secondaryBtn}
+              onPress={props.onClose}>
+              <Text style={styles.secondaryTxt}>CANCEL</Text>
             </TouchableOpacity>
-          ))}
+
+            <TouchableOpacity style={styles.primaryBtn} onPress={record}>
+              <Text style={styles.primaryTxt}>RECORD PLAY</Text>
+            </TouchableOpacity>
+          </View>
         </View>
       </View>
-
-      <TouchableOpacity
-        style={styles.recordBtn}
-        onPress={() => props.onSavePlay(props.playInput)}>
-        <Text style={styles.recordBtnTxt}>RECORD PLAY</Text>
-      </TouchableOpacity>
-      <TouchableOpacity
-        onPress={() => props.onClose()}
-        style={{ marginTop: 15 }}>
-        <Text style={{ color: '#999' }}>CANCEL</Text>
-      </TouchableOpacity>
-    </View>
-  </View>
-</Modal>
-)}
+    </Modal>
+  );
+}

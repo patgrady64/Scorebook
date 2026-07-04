@@ -2,6 +2,12 @@ import { StyleSheet } from 'react-native';
 
 import { CELL_SIZE, INN_COL_WIDTH } from '../../constants/dimensions';
 
+type PlayState = {
+  result: string | null;
+  direction?: string; // RF, LF, CF
+  detail?: string; // groundout, flyout, etc
+};
+
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: '#000' },
   boardContainer: { backgroundColor: '#1a0000', padding: 10 },
@@ -91,6 +97,49 @@ const styles = StyleSheet.create({
     fontWeight: '900',
     color: '#007AFF',
     fontSize: 15,
+  },
+  counterRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginBottom: 12,
+  },
+
+  counterGroup: {
+    flex: 1,
+    alignItems: 'center',
+  },
+
+  counterControls: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: 12,
+    marginTop: 6,
+  },
+
+  counterBtn: {
+    width: 52,
+    height: 52,
+    borderRadius: 14,
+    backgroundColor: '#EAF2FF',
+    justifyContent: 'center',
+    alignItems: 'center',
+
+    // makes it feel "pressable"
+    elevation: 2,
+  },
+
+  counterBtnTxt: {
+    fontSize: 26,
+    fontWeight: '900',
+    color: '#007AFF',
+  },
+
+  bigCount: {
+    fontSize: 28,
+    fontWeight: '900',
+    minWidth: 32,
+    textAlign: 'center',
   },
 });
 

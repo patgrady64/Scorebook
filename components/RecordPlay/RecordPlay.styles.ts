@@ -49,13 +49,20 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   actionBtn: {
-    padding: 10,
-    backgroundColor: '#eef6ff',
-    borderRadius: 8,
-    minWidth: 46,
+    paddingVertical: 10,
+    paddingHorizontal: 12,
+    backgroundColor: '#f2f6ff',
+    borderRadius: 10,
+    borderWidth: 1,
+    borderColor: '#dbe6ff',
+    minWidth: 48,
     alignItems: 'center',
   },
-  actionBtnTxt: { color: '#007AFF', fontWeight: 'bold' },
+  actionBtnTxt: {
+    color: '#1f5eff',
+    fontWeight: '800',
+    fontSize: 12,
+  },
   bottomKeys: { flexDirection: 'row', gap: 10, marginBottom: 10 },
   numpad: { flex: 3 },
   numGrid: { flexDirection: 'row', flexWrap: 'wrap', gap: 5 },
@@ -83,6 +90,157 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   recordBtnTxt: { color: '#fff', fontWeight: 'bold', fontSize: 18 },
+  headerSection: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginBottom: 12,
+    paddingBottom: 10,
+    borderBottomWidth: 1,
+    borderBottomColor: '#eee',
+  },
+  actionSection: {
+    marginTop: 10,
+    marginBottom: 10,
+  },
+  group: {
+    marginBottom: 12,
+    paddingVertical: 6,
+  },
+  groupLabel: {
+    fontSize: 10,
+    fontWeight: '900',
+    color: '#999',
+    letterSpacing: 1,
+    marginBottom: 6,
+  },
+  groupRow: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    gap: 8,
+  },
+  headerConsole: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    paddingBottom: 12,
+    borderBottomWidth: 1,
+    borderBottomColor: '#eee',
+    marginBottom: 10,
+  },
+
+  countBlock: {
+    alignItems: 'center',
+    flex: 1,
+  },
+
+  bigCount: {
+    fontSize: 28,
+    fontWeight: '900',
+    color: '#111',
+  },
+
+  resetBtn: {
+    backgroundColor: '#f2f2f2',
+    paddingVertical: 6,
+    paddingHorizontal: 12,
+    borderRadius: 8,
+  },
+
+  resetTxt: {
+    fontSize: 12,
+    fontWeight: '800',
+    color: '#444',
+    letterSpacing: 1,
+  },
+  deleteTxt: {
+    color: '#FF3B30',
+    fontWeight: '900',
+    fontSize: 14,
+    paddingHorizontal: 10,
+  },
+  sectionLabel: {
+    fontSize: 10,
+    fontWeight: '900',
+    color: '#999',
+    letterSpacing: 1,
+    marginTop: 10,
+    marginBottom: 6,
+  },
+  consoleRow: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    gap: 8,
+    marginBottom: 8,
+  },
+  consoleBtn: {
+    paddingVertical: 10,
+    paddingHorizontal: 12,
+    backgroundColor: '#e8f0ff',
+    borderRadius: 10,
+    borderWidth: 1,
+    borderColor: '#cfe0ff',
+    minWidth: 48,
+    alignItems: 'center',
+  },
+  consoleBtnOut: {
+    paddingVertical: 10,
+    paddingHorizontal: 12,
+    backgroundColor: '#ffecec',
+    borderRadius: 10,
+    borderWidth: 1,
+    borderColor: '#ffd0d0',
+    minWidth: 48,
+    alignItems: 'center',
+  },
+  consoleBtnAlt: {
+    paddingVertical: 10,
+    paddingHorizontal: 12,
+    backgroundColor: '#eefaf1',
+    borderRadius: 10,
+    borderWidth: 1,
+    borderColor: '#cfeedd',
+    minWidth: 48,
+    alignItems: 'center',
+  },
+  consoleTxt: {
+    fontSize: 12,
+    fontWeight: '800',
+    color: '#333',
+  },
+
+  commitBar: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginTop: 12,
+    gap: 10,
+  },
+  primaryBtn: {
+    flex: 1,
+    backgroundColor: '#007AFF',
+    paddingVertical: 14,
+    borderRadius: 10,
+    alignItems: 'center',
+  },
+
+  primaryTxt: {
+    color: '#fff',
+    fontWeight: '900',
+    fontSize: 14,
+  },
+  secondaryBtn: {
+    flex: 1,
+    backgroundColor: '#eee',
+    paddingVertical: 14,
+    borderRadius: 10,
+    alignItems: 'center',
+  },
+
+  secondaryTxt: {
+    color: '#444',
+    fontWeight: '800',
+    fontSize: 14,
+  },
 });
 
 export default styles;
